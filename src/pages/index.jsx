@@ -1,3 +1,4 @@
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Layout from "./Layout.jsx";
 
 import AdminAnalytics from "./AdminAnalytics";
@@ -65,7 +66,7 @@ function PagesContent() {
             <Routes>            
                 
                     <Route path="/" element={<AdminAnalytics />} />
-                
+                <Route index element={<Navigate to="/home" replace />} />
                 
                 <Route path="/AdminAnalytics" element={<AdminAnalytics />} />
                 
