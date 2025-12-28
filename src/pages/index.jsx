@@ -1,100 +1,39 @@
-import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Layout from "./Layout.jsx";
+import React from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import AdminAnalytics from "./AdminAnalytics";
+// ייבוא כל העמודים בפרויקט
+import Layout from './Layout';
+import Home from './Home';
+import Blocks from './Blocks';
+import CartPage from './CartPage';
+import AdminPanel from './AdminPanel';
+// שים לב: העורך נמצא בתיקייה אחרת
+import CollageEditor from '../components/collage/CollageEditor';
 
-import AdminCoupons from "./AdminCoupons";
+const AppRoutes = () => {
+  return (
+    <HashRouter>
+      <Routes>
+        {/* הגדרת המסגרת הראשית (התפריט) */}
+        <Route path="/" element={<Layout />}>
+          
+          {/* הפניה אוטומטית מהראשי ל-Home */}
+          <Route index element={<Navigate to="/home" replace />} />
 
-import AdminOrders from "./AdminOrders";
+          {/* רשימת כל העמודים */}
+          <Route path="home" element={<Home />} />
+          <Route path="blocks" element={<Blocks />} />
+          <Route path="editor" element={<CollageEditor />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="admin" element={<AdminPanel />} />
 
-import Blocks from "./Blocks";
+          {/* דף שגיאה אם הכתובת לא קיימת */}
+          <Route path="*" element={<div className="text-center p-10">404 - עמוד לא נמצא</div>} />
+          
+        </Route>
+      </Routes>
+    </HashRouter>
+  );
+};
 
-import Cart from "./Cart";
-
-import Collage from "./Collage";
-
-import Home from "./Home";
-
-import Magnets from "./Magnets";
-
-import Photos from "./Photos";
-
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-
-const PAGES = {
-    
-    AdminAnalytics: AdminAnalytics,
-    
-    AdminCoupons: AdminCoupons,
-    
-    AdminOrders: AdminOrders,
-    
-    Blocks: Blocks,
-    
-    Cart: Cart,
-    
-    Collage: Collage,
-    
-    Home: Home,
-    
-    Magnets: Magnets,
-    
-    Photos: Photos,
-    
-}
-
-function _getCurrentPage(url) {
-    if (url.endsWith('/')) {
-        url = url.slice(0, -1);
-    }
-    let urlLastPart = url.split('/').pop();
-    if (urlLastPart.includes('?')) {
-        urlLastPart = urlLastPart.split('?')[0];
-    }
-
-    const pageName = Object.keys(PAGES).find(page => page.toLowerCase() === urlLastPart.toLowerCase());
-    return pageName || Object.keys(PAGES)[0];
-}
-
-// Create a wrapper component that uses useLocation inside the Router context
-function PagesContent() {
-    const location = useLocation();
-    const currentPage = _getCurrentPage(location.pathname);
-    
-    return (
-        <Layout currentPageName={currentPage}>
-            <Routes>            
-                
-                    <Route path="/" element={<AdminAnalytics />} />
-                <Route index element={<Navigate to="/home" replace />} />
-                
-                <Route path="/AdminAnalytics" element={<AdminAnalytics />} />
-                
-                <Route path="/AdminCoupons" element={<AdminCoupons />} />
-                
-                <Route path="/AdminOrders" element={<AdminOrders />} />
-                
-                <Route path="/Blocks" element={<Blocks />} />
-                
-                <Route path="/Cart" element={<Cart />} />
-                
-                <Route path="/Collage" element={<Collage />} />
-                
-                <Route path="/Home" element={<Home />} />
-                
-                <Route path="/Magnets" element={<Magnets />} />
-                
-                <Route path="/Photos" element={<Photos />} />
-                
-            </Routes>
-        </Layout>
-    );
-}
-
-export default function Pages() {
-    return (
-        <Router>
-            <PagesContent />
-        </Router>
-    );
-}
+export default AppRoutes;
