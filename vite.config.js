@@ -4,8 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/blockclick/',
-  plugins: [react()],
+base: '/Blocklickapp/',  plugins: [react()],
   server: {
     allowedHosts: true
   },
