@@ -1,26 +1,31 @@
-import { base44 } from './base44Client';
+import { storage } from '../firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+export const UploadFile = async (file) => {
+  try {
+    if (!file) throw new Error("No file provided");
+    const fileName = `uploads/${Date.now()}_${file.name}`;
+    const storageRef = ref(storage, fileName);
+    const snapshot = await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    
+    return {
+      url: downloadURL,
+      name: file.name,
+      type: file.type,
+      size: file.size
+    };
+  } catch (error) {
+    console.error("Firebase Upload Error:", error);
+    throw error;
+  }
+};
 
+export const SendEmail = async (data) => {
+    console.log("Email sent (simulation):", data);
+    return { success: true };
+};
 
-
-export const Core = base44.integrations.Core;
-
-export const InvokeLLM = base44.integrations.Core.InvokeLLM;
-
-export const SendEmail = base44.integrations.Core.SendEmail;
-
-export const UploadFile = base44.integrations.Core.UploadFile;
-
-export const GenerateImage = base44.integrations.Core.GenerateImage;
-
-export const ExtractDataFromUploadedFile = base44.integrations.Core.ExtractDataFromUploadedFile;
-
-export const CreateFileSignedUrl = base44.integrations.Core.CreateFileSignedUrl;
-
-export const UploadPrivateFile = base44.integrations.Core.UploadPrivateFile;
-
-
-
-
-
-
+export const Core = { UploadFile, SendEmail };
+export const InvokeLLM = async () => {};
+export const GenerateImage = async () => {};
