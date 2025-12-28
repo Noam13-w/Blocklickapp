@@ -1,35 +1,35 @@
 import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-// ייבוא כל העמודים בפרויקט
+// ייבוא הרכיבים (ודא שהשמות תואמים לקבצים שלך)
 import Layout from './Layout';
 import Home from './Home';
 import Blocks from './Blocks';
-import CartPage from './CartPage';
-import AdminPanel from './AdminPanel';
-// שים לב: העורך נמצא בתיקייה אחרת
 import CollageEditor from '../components/collage/CollageEditor';
+import AdminPanel from './AdminPanel';
+import CartPage from './CartPage';
+// אם יש עוד עמודים, ודא שהם מיובאים כאן
 
 const AppRoutes = () => {
   return (
     <HashRouter>
       <Routes>
-        {/* הגדרת המסגרת הראשית (התפריט) */}
+        {/* העוטף הראשי - Layout */}
         <Route path="/" element={<Layout />}>
           
-          {/* הפניה אוטומטית מהראשי ל-Home */}
+          {/* 1. הפניה אוטומטית: מי שמגיע לריק, עף ל-home */}
           <Route index element={<Navigate to="/home" replace />} />
 
-          {/* רשימת כל העמודים */}
+          {/* 2. הגדרת העמודים */}
           <Route path="home" element={<Home />} />
           <Route path="blocks" element={<Blocks />} />
           <Route path="editor" element={<CollageEditor />} />
-          <Route path="cart" element={<CartPage />} />
           <Route path="admin" element={<AdminPanel />} />
+          <Route path="cart" element={<CartPage />} />
 
-          {/* דף שגיאה אם הכתובת לא קיימת */}
-          <Route path="*" element={<div className="text-center p-10">404 - עמוד לא נמצא</div>} />
-          
+          {/* דף 404 - לכל מה שלא נמצא */}
+          <Route path="*" element={<div className="p-10 text-center">העמוד לא נמצא 404</div>} />
+        
         </Route>
       </Routes>
     </HashRouter>
